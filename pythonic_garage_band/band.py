@@ -2,11 +2,15 @@ from abc import ABC, abstractmethod, abstractstaticmethod, abstractclassmethod
 class Musician(ABC):
     def __init__(self,members=["Guitarist","Bassist","Drummer"]):
         self.members = members
+
 class Band(Musician):
-    def __init__(self,name,members=[Musician,]):
+    instances = []
+    def __init__(self,name,members=[]):
         # super().__init__(members,members)
         self.name = name
         self.members=members
+        self.__class__.instances.append(self.name)
+
     @classmethod
     def __repr__ (self):
         pass
@@ -17,10 +21,11 @@ class Band(Musician):
     def play_solo(self):
         pass
     @classmethod
-    def to_list(self):
-        return []
+    def to_list(cls):
+        return cls.instances
     def play_solos(self):
         return (["face melting guitar solo","bom bom buh bom","rattle boom crash"])
+        
 class Guitarist(Band):
     def __str__(self):
         return(f"My name is {self.name} and I play guitar")
@@ -30,6 +35,7 @@ class Guitarist(Band):
         return("guitar")
     def play_solo(self):
         return("face melting guitar solo")
+
 class Drummer(Band):
     def __str__(self):
         return(f"My name is {self.name} and I play drums")
@@ -39,6 +45,7 @@ class Drummer(Band):
         return("drums")
     def play_solo(self):
         return("rattle boom crash")
+
 class Bassist(Band):
     def __str__(self):
         return(f"My name is {self.name} and I play bass")
@@ -49,3 +56,7 @@ class Bassist(Band):
     def play_solo(self):
         return("bom bom buh bom")
         
+if __name__ == "__main__" :
+    hello = Band("Hellos", [])
+    hey = Band("Heys", [])
+    print(Band.instances)
